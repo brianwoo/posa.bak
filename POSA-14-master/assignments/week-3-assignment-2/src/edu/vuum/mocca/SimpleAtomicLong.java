@@ -2,6 +2,7 @@
 
 package edu.vuum.mocca;
 
+import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.concurrent.locks.Lock;
 
@@ -24,12 +25,14 @@ class SimpleAtomicLong
      * The ReentrantReadWriteLock used to serialize access to mValue.
      */
     // TODO - add the implementation
+    ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
     /**
      * Creates a new SimpleAtomicLong with the given initial value.
      */
     public SimpleAtomicLong(long initialValue) {
         // TODO - you fill in here
+    	this.mValue = initialValue;
     }
 
     /**
@@ -39,6 +42,15 @@ class SimpleAtomicLong
      */
     public long get() {
         // TODO - you fill in here
+    	try
+    	{
+    		readWriteLock.readLock().lock();
+    		return mValue;
+    	}
+    	finally
+    	{
+    		readWriteLock.readLock().unlock();	
+    	}
     }
 
     /**
@@ -48,6 +60,15 @@ class SimpleAtomicLong
      */
     public long decrementAndGet() {
         // TODO - you fill in here
+    	try
+    	{
+    		readWriteLock.writeLock().lock();
+    		return --mValue;
+    	}
+    	finally
+    	{
+    		readWriteLock.writeLock().unlock();	
+    	}
     }
 
     /**
@@ -57,6 +78,15 @@ class SimpleAtomicLong
      */
     public long getAndIncrement() {
         // TODO - you fill in here
+    	try
+    	{
+    		readWriteLock.writeLock().lock();
+    		return mValue++;
+    	}
+    	finally
+    	{
+    		readWriteLock.writeLock().unlock();	
+    	}
     }
 
     /**
@@ -66,6 +96,15 @@ class SimpleAtomicLong
      */
     public long getAndDecrement() {
         // TODO - you fill in here
+    	try
+    	{
+    		readWriteLock.writeLock().lock();
+    		return mValue--;
+    	}
+    	finally
+    	{
+    		readWriteLock.writeLock().unlock();	
+    	}
     }
 
     /**
@@ -75,6 +114,15 @@ class SimpleAtomicLong
      */
     public long incrementAndGet() {
         // TODO - you fill in here
+    	try
+    	{
+    		readWriteLock.writeLock().lock();
+    		return ++mValue;
+    	}
+    	finally
+    	{
+    		readWriteLock.writeLock().unlock();	
+    	}
     }
 }
 
