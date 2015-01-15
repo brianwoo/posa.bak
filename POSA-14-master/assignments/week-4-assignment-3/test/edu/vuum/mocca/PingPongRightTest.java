@@ -64,6 +64,11 @@ public class PingPongRightTest {
             //differences in the way that newlines are handled.
             boolean windowsTrue = outResults.equals(testResultWindows);
             boolean unixTrue = outResults.equals(testResultUnix);
+            
+            //fail("windowsTrue? " + testResultWindows);
+            //fail("windowsTrue? " + windowsTrue);
+            //fail("unixTrue? " + unixTrue);
+            
             boolean pingAllFirstTrue = outResults.equals(pingAllFirst);
             boolean pongAllFirstTrue = outResults.equals(pongAllFirst);
 
@@ -84,6 +89,7 @@ public class PingPongRightTest {
                      + testResultWindows);
 
             outContent.reset();
+            
         }
     }
 
