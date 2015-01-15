@@ -32,7 +32,7 @@ public class SimpleSemaphore {
      */
     // TODO - you fill in here.  Make sure that this data member will
     // ensure its values aren't cached by multiple Threads..
-	private volatile int mNumOfPermitsAvail;
+	private  int mNumOfPermitsAvail;
 	
 
     public SimpleSemaphore(int permits, boolean fair) {
@@ -53,10 +53,10 @@ public class SimpleSemaphore {
     	
     	try
     	{
-        	mLock.lock();
+        	mLock.lockInterruptibly();
         	
     		while (mNumOfPermitsAvail == 0)
-    			mPermitIsZero.await();
+    			mPermitIsZero.await();  // await() is interruptible
     	
     		mNumOfPermitsAvail--;
     	}
@@ -75,17 +75,12 @@ public class SimpleSemaphore {
     	
     	try
 		{
-			mLock.lockInterruptibly();
+			mLock.lock();
 			
 	    	while (mNumOfPermitsAvail == 0)
 	    		mPermitIsZero.awaitUninterruptibly();
 	    	
 	    	mNumOfPermitsAvail--;
-	    	
-		}
-		catch (InterruptedException e)
-		{
-			System.out.println("Thread was interrupted.  Not doing anything.");
 		}
     	finally
     	{
