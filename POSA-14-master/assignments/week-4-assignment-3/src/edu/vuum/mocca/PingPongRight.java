@@ -39,6 +39,8 @@ public class PingPongRight {
          */
         private final static int FIRST_SEMA = 0;
         private final static int SECOND_SEMA = 1;
+        
+        static final int TOTAL_NUM_SEMAS = 2;
 
         /**
          * Maximum number of loop iterations.
@@ -58,7 +60,7 @@ public class PingPongRight {
          * two data members.
          */
         // TODO - You fill in here.
-        private SimpleSemaphore mSemaArray[] = new SimpleSemaphore[2];
+        private SimpleSemaphore mSemaArray[] = new SimpleSemaphore[TOTAL_NUM_SEMAS];
 
         /**
          * Constructor initializes the data member(s).
@@ -132,7 +134,7 @@ public class PingPongRight {
 
         // TODO initialize this by replacing null with the appropriate
         // constructor call.
-        mLatch = new CountDownLatch(maxIterations * 2);
+        mLatch = new CountDownLatch(maxIterations * PlayPingPongThread.TOTAL_NUM_SEMAS);
 
         // Create the ping and pong SimpleSemaphores that control
         // alternation between threads.
