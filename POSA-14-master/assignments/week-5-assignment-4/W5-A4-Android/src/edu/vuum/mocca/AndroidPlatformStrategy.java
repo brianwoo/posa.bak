@@ -60,6 +60,8 @@ public class AndroidPlatformStrategy extends PlatformStrategy
         // TODO - You fill in here.
     	final Activity activity = mActivity.get();
     	
+    	// notice that activity might go away and so we should check 
+    	// if it's null.
     	if (activity != null)
     	{
         	activity.runOnUiThread(new Runnable()
