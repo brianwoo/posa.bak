@@ -59,19 +59,21 @@ public class AndroidPlatformStrategy extends PlatformStrategy
          */
         // TODO - You fill in here.
     	final Activity activity = mActivity.get();
-    	activity.runOnUiThread(new Runnable()
-		{
-			
-			@Override
-			public void run()
-			{
-				TextView textView = 
-						(TextView) ((PingPongActivity) activity).findViewById(R.id.pingpong_output);
-				
-				textView.append(outputString + "\n");
-				
-			}
-		});
+    	
+    	if (activity != null)
+    	{
+        	activity.runOnUiThread(new Runnable()
+    		{
+    			
+    			@Override
+    			public void run()
+    			{				
+    				mTextViewOutput.append(outputString + "\n");
+    				
+    			}
+    		});
+    	}
+    	
     }
 
     /** Indicate that a game thread has finished running. */
