@@ -70,6 +70,8 @@ public class DownloadActivity extends DownloadBase {
     	@Override
         public void handleMessage(Message msg) {
     		
+    		System.out.println("---- DownloadActivity handleMessage ----");
+    		
             // Get an actual reference to the DownloadActivity
             // from the WeakReference.
             final DownloadActivity activity = outerClass.get();
@@ -81,14 +83,13 @@ public class DownloadActivity extends DownloadBase {
                 // bitmap that's been downloaded and returned to
                 // the DownloadActivity as a pathname who's Bundle
             	// key is defined by DownloadUtils.PATHNAME_KEY
-            	if (Activity.RESULT_OK == msg.arg1)
-            	{
-            		Bundle dataBundle = msg.getData();
-            		String pathname = dataBundle.getString(DownloadUtils.PATHNAME_KEY);
-            		
-            		if (pathname != null)
-            			activity.displayBitmap(pathname);
-            	}           	
+            	
+        		Bundle dataBundle = msg.getData();
+        		String pathname = dataBundle.getString(DownloadUtils.PATHNAME_KEY);
+        		
+        		if (pathname != null)
+        			activity.displayBitmap(pathname);
+           	
             }
     	}
     }

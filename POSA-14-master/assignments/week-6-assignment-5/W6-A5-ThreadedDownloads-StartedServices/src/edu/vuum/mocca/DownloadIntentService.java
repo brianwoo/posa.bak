@@ -97,6 +97,8 @@ public class DownloadIntentService extends IntentService {
         // in the intent and returns the file's pathname using a
         // Messenger who's Bundle key is defined by DownloadUtils.MESSENGER_KEY
     	
+    	System.out.println("---- DownloadIntentService onHandleIntent ----");
+    	
     	Bundle extra = intent.getExtras();
     	Messenger messenger = (Messenger) extra.get(DownloadUtils.MESSENGER_KEY);
     	
