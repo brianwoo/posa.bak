@@ -2,7 +2,7 @@ Intent Service already running in a separate thread.
 
 For Started Service and Bound Service - need to create its own ThreadPool or use HandlerThread
 
-Bound Service - can use regular handler to do message exchange or use AIDL.
+Bound Service - can use regular handler to do message exchange (Messenger) or use AIDL.
 
 AIDL (proxy and stub) - already has built-in thread support and support oneway (async) or twoway (synch) calls
 
