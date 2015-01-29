@@ -3,10 +3,12 @@ package edu.vuum.mocca;
 import android.content.ComponentName;
 import android.content.ServiceConnection;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 /**
  * This is the main Activity that the program uses to start the
@@ -76,7 +78,7 @@ public class DownloadActivity extends DownloadBase {
                 // service parameter into an interface that can be
                 // used to make RPC calls to the Service.
 
-                mDownloadCall = null;
+                mDownloadCall = DownloadCall.Stub.asInterface(service);
             }
 
             /**
@@ -109,7 +111,7 @@ public class DownloadActivity extends DownloadBase {
                 // service parameter into an interface that can be
                 // used to make RPC calls to the Service.
 
-                mDownloadRequest = null;
+                mDownloadRequest = DownloadRequest.Stub.asInterface(service);
             }
 
             /**
@@ -145,7 +147,16 @@ public class DownloadActivity extends DownloadBase {
                 // sendPath().  Please use displayBitmap() defined in
                 // DownloadBase.
 
-                Runnable displayRunnable = null;
+                Runnable displayRunnable = new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						displayBitmap(imagePathname);
+					}
+				};
+				
+				runOnUiThread(displayRunnable);
             }
         };
      
@@ -162,12 +173,58 @@ public class DownloadActivity extends DownloadBase {
         case R.id.bound_sync_button:
             // TODO - You fill in here to use mDownloadCall to
             // download the image & then display it.
+        	AsyncTask<Uri, Void, String> asyncTask = new AsyncTask<Uri, Void, String>()
+			{
+				@Override
+				protected void onPostExecute(String result)
+				{
+					super.onPostExecute(result);
+					displayBitmap(result);
+				}
+
+				@Override
+				protected String doInBackground(Uri... params)
+				{
+					String imagePath = null;
+					try
+					{
+						imagePath = mDownloadCall.downloadImage(params[0]);
+					}
+					catch (RemoteException e)
+					{
+						Toast.makeText(DownloadActivity.this, 
+									"Unable to make sync RPC!", 
+									Toast.LENGTH_SHORT
+								).show();
+						
+						e.printStackTrace();
+					}
+					
+					return imagePath;
+				}
+			};
+			
+			asyncTask.execute(uri);
+			
             break;
 
         case R.id.bound_async_button:
             // TODO - You fill in here to call downloadImage() on
             // mDownloadRequest, passing in the appropriate Uri and
             // callback.
+				try
+				{
+					mDownloadRequest.downloadImage(uri, mDownloadCallback);
+				}
+				catch (RemoteException e)
+				{
+					Toast.makeText(this, 
+								"Unable to make async RPC!", 
+								Toast.LENGTH_SHORT
+							).show();
+					
+					e.printStackTrace();
+				}
             break;
         }
     }
