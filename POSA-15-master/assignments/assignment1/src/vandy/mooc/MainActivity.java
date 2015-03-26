@@ -1,5 +1,8 @@
 package vandy.mooc;
 
+import java.net.URI;
+import java.net.URL;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -54,13 +57,16 @@ public class MainActivity extends LifecycleLoggingActivity {
         // Always call super class for necessary
         // initialization/implementation.
         // @@ TODO -- you fill in here.
+    	super.onCreate(savedInstanceState);
 
         // Set the default layout.
         // @@ TODO -- you fill in here.
+    	setContentView(R.layout.main_activity);
 
         // Cache the EditText that holds the urls entered by the user
         // (if any).
         // @@ TODO -- you fill in here.
+    	mUrlEditText = (EditText) findViewById(R.id.url);
     }
 
     /**
@@ -81,12 +87,16 @@ public class MainActivity extends LifecycleLoggingActivity {
             // it's an Intent that's implemented by the
             // DownloadImageActivity.
             // @@ TODO - you fill in here.
+            Uri uri = getUrl();
+            Intent downloadIntent = makeDownloadImageIntent(uri);
 
             // Start the Activity associated with the Intent, which
             // will download the image and then return the Uri for the
             // downloaded image file via the onActivityResult() hook
             // method.
             // @@ TODO -- you fill in here.
+            startActivityForResult(downloadIntent, DOWNLOAD_IMAGE_REQUEST);
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -105,19 +115,22 @@ public class MainActivity extends LifecycleLoggingActivity {
         // Check if the started Activity completed successfully.
         // @@ TODO -- you fill in here, replacing true with the right
         // code.
-        if (true) {
+        if (RESULT_OK == resultCode) {
             // Check if the request code is what we're expecting.
             // @@ TODO -- you fill in here, replacing true with the
             // right code.
-            if (true) {
+            if (DOWNLOAD_IMAGE_REQUEST == requestCode) {
                 // Call the makeGalleryIntent() factory method to
                 // create an Intent that will launch the "Gallery" app
                 // by passing in the path to the downloaded image
                 // file.
                 // @@ TODO -- you fill in here.
-
+            	String pathToImageFile = null; // TODO: get pathToImageFile from Intent
+            	Intent galleryIntent = makeGalleryIntent(pathToImageFile);
+            	
                 // Start the Gallery Activity.
                 // @@ TODO -- you fill in here.
+            	startActivity(galleryIntent);
             }
         }
         // Check if the started Activity did not complete successfully
