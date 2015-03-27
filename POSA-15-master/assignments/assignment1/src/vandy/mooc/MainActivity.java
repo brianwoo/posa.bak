@@ -138,7 +138,9 @@ public class MainActivity extends LifecycleLoggingActivity {
         // download contents at the given URL.
         // @@ TODO -- you fill in here, replacing true with the right
         // code.
-        else if (true) {
+        else if (RESULT_OK != resultCode) {
+        	Toast toast = Toast.makeText(this, "Unable to download image", Toast.LENGTH_SHORT);
+        	toast.show();
         }
     }    
 
@@ -151,6 +153,14 @@ public class MainActivity extends LifecycleLoggingActivity {
         // the image.
     	// TODO -- you fill in here, replacing "false" with the proper
     	// code.
+    	Intent galleryIntent = new Intent(Intent.ACTION_VIEW);
+    	
+    	Uri imageData = Uri.parse(pathToImageFile);
+    	
+    	galleryIntent.setDataAndType(imageData, "image/*");
+    	
+    	return galleryIntent;
+    	
     }
 
     /**
@@ -160,6 +170,8 @@ public class MainActivity extends LifecycleLoggingActivity {
         // Create an intent that will download the image from the web.
     	// TODO -- you fill in here, replacing "false" with the proper
     	// code.
+    	
+    	
     }
 
     /**
