@@ -119,10 +119,18 @@ public class DownloadUtils {
         Bitmap imageToSave =
             BitmapFactory.decodeStream(inputStream);
 
-        File directory =
+        System.out.println("#### getExternalStoragePublicDirectory=" + Environment.getExternalStorageDirectory());
+        
+        /*
+        File directory =  
+                new File("/storage/emulated/legacy/DCIM" + "/ImageDir");
+                */
+        /* */
+        File directory =  
             new File(Environment.getExternalStoragePublicDirectory
                      (Environment.DIRECTORY_DCIM)
                      + "/ImageDir");
+               /*      */
 
         if (!directory.exists()) {
             File newDirectory =

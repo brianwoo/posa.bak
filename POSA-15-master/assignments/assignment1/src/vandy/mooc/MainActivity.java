@@ -1,7 +1,7 @@
 package vandy.mooc;
 
-import java.net.URI;
-import java.net.URL;
+
+import java.io.File;
 
 import android.app.Activity;
 import android.content.Context;
@@ -31,7 +31,7 @@ public class MainActivity extends LifecycleLoggingActivity {
      * A value that uniquely identifies the request to download an
      * image.
      */
-    private static final int DOWNLOAD_IMAGE_REQUEST = 1;
+    protected static final int DOWNLOAD_IMAGE_REQUEST = 1;
 
     /**
      * EditText field for entering the desired URL to an image.
@@ -125,7 +125,7 @@ public class MainActivity extends LifecycleLoggingActivity {
                 // by passing in the path to the downloaded image
                 // file.
                 // @@ TODO -- you fill in here.
-            	String pathToImageFile = null; // TODO: get pathToImageFile from Intent
+            	String pathToImageFile = data.getData().toString();
             	Intent galleryIntent = makeGalleryIntent(pathToImageFile);
             	
                 // Start the Gallery Activity.
@@ -153,10 +153,16 @@ public class MainActivity extends LifecycleLoggingActivity {
         // the image.
     	// TODO -- you fill in here, replacing "false" with the proper
     	// code.
+    	
+    	Log.d(TAG, "####### pathToImageFile="+pathToImageFile);
+    	
+    	// It doesn't seem to be able to parse the path to Uri.
+    	// Will convert from File to Uri.
+    	File file = new File(pathToImageFile);
+    	Uri imageData = Uri.fromFile(file);
+    	//Uri imageData = Uri.parse(pathToImageFile);
+    	
     	Intent galleryIntent = new Intent(Intent.ACTION_VIEW);
-    	
-    	Uri imageData = Uri.parse(pathToImageFile);
-    	
     	galleryIntent.setDataAndType(imageData, "image/*");
     	
     	return galleryIntent;
@@ -169,9 +175,11 @@ public class MainActivity extends LifecycleLoggingActivity {
     private Intent makeDownloadImageIntent(Uri url) {
         // Create an intent that will download the image from the web.
     	// TODO -- you fill in here, replacing "false" with the proper
-    	// code.
+    	// code.    	
+    	Intent downloadImageIntent = new Intent(Intent.ACTION_WEB_SEARCH);   	
     	
-    	
+    	downloadImageIntent.setData(url);
+    	return downloadImageIntent;
     }
 
     /**
@@ -192,7 +200,7 @@ public class MainActivity extends LifecycleLoggingActivity {
         // toast if the URL is invalid.
         // @@ TODO -- you fill in here, replacing "true" with the
         // proper code.
-        if (true)
+        if (URLUtil.isValidUrl(url.toString()))
             return url;
         else {
             Toast.makeText(this,
